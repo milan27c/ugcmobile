@@ -128,6 +128,7 @@ System font stack: `-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe 
 
 | Use              | Size  | Weight |
 |------------------|-------|--------|
+| App bar title    | 16px  | 700    |
 | Page title       | 22px  | 800    |
 | Section title    | 17px  | 700    |
 | Card title       | 14–15px | 600–700 |
@@ -165,12 +166,11 @@ System font stack: `-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe 
 - "See All" links on each section
 
 ### 4. Wallet (`/wallet`)
-- Large gradient balance card showing total points
-- Quick actions: Redeem, History, Transfer
-- Stats row: Total Earned, Redeemed, Rewards Used
-- Transaction history list:
-  - Earned entries show blue `+pts` and source (Per Post / Per Views)
-  - Redeemed entries show pink `−pts` and brand name
+- **Premium card** — Mastercard-inspired dark gradient card (deep blue→purple→magenta), user avatar (top-left), username, "AZBOW" wordmark, gold chip element, two overlapping MC-style circles (bottom-right), large point balance
+- **Points Activity graph** — SVG bezier area chart (gradient stroke + fade fill). Three period selectors: 30D (30 daily pts), 3M (13 weekly pts), 1Y (12 monthly pts)
+- **Scan to Pay** — tappable card opens device camera with scan-frame overlay + animated scan line; uses `scan.png` icon on gradient square
+- **Points Breakdown** — single combined list (earned + redeemed together), period filter (30D / 3M / 1Y), summary row above cards showing total earned (black) and total redeemed (red `#FF3B30`). Brand logo (32px), brand name, points only — no date shown. Redeemed points shown in red, earned in black `#111111`
+- **Transaction drawer** — slides up from bottom with `cubic-bezier(0.32,0.72,0,1)` animation; shows brand logo, name, type label, point chip, detail rows (post type / reward type / status — no views/likes). Closes by tapping backdrop or dragging down. No close button.
 
 ### 5. Profile (`/profile`)
 - Gradient cover photo

@@ -49,20 +49,20 @@ export function Footer({ activePage, isInMockup = false, onNavigate }: FooterPro
               onClick={() => onNavigate?.(item.id as 'home' | 'brands' | 'rewards' | 'wallet' | 'profile')}
               className="relative flex items-center justify-center transition-transform hover:scale-110 active:scale-95"
             >
-              {isActive && !isLightMode && (
+              {(isActive && !isLightMode) || (item.id === 'home' && activePage === 'brands') ? (
                 <div
                   className="absolute inset-0 rounded-full"
                   style={{
                     background: 'linear-gradient(135deg, #4A8FFF 0%, #934DFF 55%, #FF4DBA 100%)',
-                    width: '48px',
-                    height: '48px',
+                    width: item.id === 'home' ? '48px' : '48px',
+                    height: item.id === 'home' ? '48px' : '48px',
                     left: '50%',
                     top: '50%',
                     transform: 'translate(-50%, -50%)',
                     zIndex: -1,
                   }}
                 />
-              )}
+              ) : null}
               <div className={`relative flex items-center justify-center ${item.id === 'home' ? 'w-6 h-6' : 'w-8 h-8'}`}>
                 <Image
                   src={`/images/footer/${iconFileName}`}

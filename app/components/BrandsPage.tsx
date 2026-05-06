@@ -14,6 +14,10 @@ interface Brand {
   image: string;
 }
 
+interface BrandsPageProps {
+  onBrandClick?: (brandName: string) => void;
+}
+
 const BRANDS: Brand[] = [
   {
     id: '1',
@@ -117,7 +121,7 @@ const CATEGORIES = [
   'Fitness',
 ];
 
-export function BrandsPage() {
+export function BrandsPage({ onBrandClick }: BrandsPageProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
@@ -213,26 +217,27 @@ export function BrandsPage() {
           {filteredBrands.map((brand) => (
             <div
               key={brand.id}
-              className="relative h-48 rounded-2xl overflow-hidden group cursor-pointer bg-gray-200"
+              className="relative h-56 rounded-2xl overflow-hidden group cursor-pointer bg-gray-200"
+              onClick={() => onBrandClick?.(brand.name)}
             >
               <Image
                 src={brand.image}
                 alt={brand.name}
                 width={400}
-                height={192}
+                height={224}
                 className="w-full h-full object-cover group-hover:scale-105 transition"
                 priority
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-between p-4">
                 <div />
-                <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-300 flex-shrink-0">
+                <div className="flex items-end justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-full overflow-hidden bg-gray-300 flex-shrink-0">
                       <Image
                         src={brand.logo}
                         alt={brand.name}
-                        width={40}
-                        height={40}
+                        width={32}
+                        height={32}
                         className="w-full h-full object-cover"
                       />
                     </div>
@@ -241,9 +246,16 @@ export function BrandsPage() {
                       <p className="text-gray-300 text-xs">{brand.location}</p>
                     </div>
                   </div>
-                  <div className="bg-black/60 rounded-full px-3 py-1 w-fit">
+                  <div
+                    className="rounded-full px-3 py-1.5 flex-shrink-0"
+                    style={{
+                      border: '1px solid rgba(255, 255, 255, 0.6)',
+                      backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                      backdropFilter: 'blur(10px)',
+                    }}
+                  >
                     <p className="text-white text-xs font-semibold">
-                      Up to {brand.points} Points
+                      Up to {brand.points}
                     </p>
                   </div>
                 </div>
@@ -260,6 +272,7 @@ export function BrandsPage() {
             <div
               key={brand.id}
               className="flex items-center gap-3 p-4 bg-gray-50 rounded-2xl hover:bg-gray-100 transition cursor-pointer"
+              onClick={() => onBrandClick?.(brand.name)}
             >
               <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 bg-gray-300">
                 <Image
