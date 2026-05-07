@@ -59,7 +59,7 @@ export function BrandDetailPage({ brandName, onBack }: BrandDetailPageProps) {
   const posts = getPosts();
 
   return (
-    <div className="w-full h-screen bg-white overflow-y-auto pb-8">
+    <div className="w-full h-screen overflow-y-auto pb-8 bg-gray-50">
       {/* Cover Image with Overlays */}
       <div className="relative w-full h-96 bg-gray-200">
         <Image

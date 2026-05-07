@@ -129,16 +129,16 @@ export function WalletPage() {
   const totalRedeemed = Math.abs(TRANSACTIONS.filter(t => t.type === 'redeemed').reduce((s,t) => s + t.points, 0));
 
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-white">
+    <div className="relative w-full h-screen overflow-hidden bg-gray-50">
       <div className="w-full h-full overflow-y-auto pb-32">
 
         {/* Header */}
-        <div className="px-4 pt-6 pb-3">
+        <div className="px-4 pt-6 pb-4 bg-white border-b border-gray-100">
           <h1 className="font-bold text-gray-900" style={{ fontSize: 16 }}>Wallet</h1>
         </div>
 
         {/* ══ Card area ══════════════════════════════════════════════════ */}
-        <div className="px-4 mb-5">
+        <div className="px-4 mt-4 mb-5">
           <style>{`
             @keyframes azBlob1 {
               0%,100% { transform:translate(0px,0px) scale(1); }

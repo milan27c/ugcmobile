@@ -49,7 +49,7 @@ export function Footer({ activePage, isInMockup = false, onNavigate }: FooterPro
               onClick={() => onNavigate?.(item.id as 'home' | 'brands' | 'rewards' | 'wallet' | 'profile')}
               className="relative flex items-center justify-center transition-transform hover:scale-110 active:scale-95"
             >
-              {(isActive && !isLightMode) || (item.id === 'home' && activePage === 'brands') ? (
+              {(isActive && !isLightMode) || (item.id === 'home' && ['brands', 'rewards', 'wallet', 'profile'].includes(activePage)) ? (
                 <div
                   className="absolute inset-0 rounded-full"
                   style={{

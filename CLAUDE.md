@@ -243,6 +243,39 @@ When the HTML prototype is opened on desktop, it shows an **iPhone 16-style fram
 
 ---
 
+## Standard UI Components
+
+### App Bar (for Rewards, Wallet, Profile, and other pages)
+
+Used consistently across all pages (except Home feed) for a unified header experience.
+
+**Structure:**
+```jsx
+<div className="px-4 pt-6 pb-4 bg-white border-b border-gray-100">
+  <h1 className="font-bold text-gray-900" style={{ fontSize: 16 }}>Page Title</h1>
+  {/* Optional: action buttons on the right */}
+</div>
+```
+
+**Spacing:**
+- `px-4` — horizontal padding
+- `pt-6` — top padding
+- `pb-4` — bottom padding
+- `bg-white` — white background
+- `border-b border-gray-100` — subtle bottom divider
+
+**Title Typography:**
+- Font size: `16px`
+- Font weight: `700` (bold)
+- Color: `text-gray-900` (#111)
+
+**Following Section:**
+- Add `mt-4` to the first content section after the app bar for consistent spacing
+
+**Examples:** Rewards page, Wallet page, Profile page
+
+---
+
 ## Key UX Conventions
 
 - **No explicit location filter UI** — filtering is backend/silent

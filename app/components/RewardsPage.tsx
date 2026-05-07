@@ -227,16 +227,16 @@ export function RewardsPage() {
   };
 
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-white">
+    <div className="relative w-full h-screen overflow-hidden bg-gray-50">
       <div className="w-full h-full overflow-y-auto pb-32">
 
         {/* Header */}
-        <div className="px-4 pt-6 pb-4">
+        <div className="px-4 pt-6 pb-4 bg-white border-b border-gray-100">
           <h1 className="font-bold text-gray-900" style={{ fontSize: 16 }}>Rewards</h1>
         </div>
 
         {/* ── Expiry Warning Banner ───────────────────────────────────── */}
-        <div className="mx-4 mb-5 rounded-2xl overflow-hidden"
+        <div className="mx-4 mt-4 mb-5 rounded-2xl overflow-hidden"
           style={{ background: 'linear-gradient(135deg,#FF8C00 0%,#FFB800 100%)' }}>
           <div className="flex items-center gap-3 px-4 py-3.5">
             <Image src="/images/rewards/expire.png" alt="Expiring" width={36} height={36} className="flex-shrink-0" />

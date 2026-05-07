@@ -136,7 +136,7 @@ export function BrandsPage({ onBrandClick }: BrandsPageProps) {
   });
 
   return (
-    <div className="w-full h-screen bg-white overflow-y-auto pb-32 pt-4">
+    <div className="w-full h-screen overflow-y-auto pb-32 pt-4 bg-gray-50">
       {/* Search Bar */}
       <div className="px-4 mb-4">
         <div className="flex items-center gap-2 bg-gray-100 rounded-full px-4 py-2">

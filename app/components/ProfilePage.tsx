@@ -17,6 +17,14 @@ interface Post {
   rejection?: string;
 }
 
+interface Brand {
+  name: string;
+  logo: string;
+  postCount: number;
+  totalEarnings: number;
+  posts: Post[];
+}
+
 interface SocialAccount {
   id: string;
   name: string;
@@ -27,11 +35,9 @@ interface SocialAccount {
 
 const APPROVED: Post[] = [
   { id:'a1', image:'/images/profile/contents/approved/1.mp4',  logo:'/images/profile/contents/approved/1logo.png',  brandName:'Barista Sri Lanka', points:750, isVideo:true },
+  { id:'a4', image:'/images/profile/contents/approved/4.png',  logo:'/images/profile/contents/approved/4logo.png',  brandName:'Kandy Hills',        points:250 },
   { id:'a2', image:'/images/profile/contents/approved/2.png',  logo:'/images/profile/contents/approved/2logo.png',  brandName:'Carnage',           points:320 },
   { id:'a3', image:'/images/profile/contents/approved/3.png',  logo:'/images/profile/contents/approved/3logo.png',  brandName:'Waters Edge',        points:120 },
-  { id:'a4', image:'/images/profile/contents/approved/4.png',  logo:'/images/profile/contents/approved/4logo.png',  brandName:'Kandy Hills',        points:250 },
-  { id:'a5', image:'/images/profile/contents/approved/5.png',  logo:'/images/profile/contents/approved/5logo.png',  brandName:'i Planet',           points:200 },
-  { id:'a6', image:'/images/profile/contents/approved/6.png',  logo:'/images/profile/contents/approved/6logo.png',  brandName:'Barista',            points:450 },
   { id:'a7', image:'/images/profile/contents/approved/7.png',  logo:'/images/profile/contents/approved/7logo.png',  brandName:'Scope Cinema',       points:100 },
 ];
 
@@ -53,43 +59,37 @@ const SOCIAL: SocialAccount[] = [
 
 /* ── Social icon shapes ─────────────────────────────────────────────── */
 function SocialIcon({ account, onTap }: { account: SocialAccount; onTap(): void }) {
-  const styles: Record<string, React.CSSProperties> = {
-    ig:     { background: 'linear-gradient(135deg,#f09433,#e6683c,#dc2743,#bc1888)' },
-    tiktok: { background: '#010101' },
-    fb:     { background: '#fff', border: '2px dashed #934DFF' },
-    yt:     { background: '#fff', border: '2px dashed #FF4DBA' },
+  const iconMap: Record<string, string> = {
+    ig: '/images/profile/socialmedia/instagram.png',
+    tiktok: '/images/profile/socialmedia/tiktok.png',
+    fb: '/images/profile/socialmedia/facebook.png',
+    yt: '/images/profile/socialmedia/youtube.png',
   };
 
   return (
     <button onClick={onTap} className="relative transition active:scale-90">
-      <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={styles[account.id]}>
-        {account.id === 'ig' && (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <rect x="2" y="2" width="20" height="20" rx="6" stroke="white" strokeWidth="2"/>
-            <circle cx="12" cy="12" r="4" stroke="white" strokeWidth="2"/>
-            <circle cx="17.5" cy="6.5" r="1.5" fill="white"/>
-          </svg>
-        )}
-        {account.id === 'tiktok' && (
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
-            <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.65a8.22 8.22 0 004.82 1.55V6.75a4.85 4.85 0 01-1.05-.06z"/>
-          </svg>
-        )}
-        {account.id === 'fb' && (
-          <span className="font-black text-lg" style={{ color:'#934DFF' }}>f</span>
-        )}
-        {account.id === 'yt' && (
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-            <polygon points="10,8 16,12 10,16" fill="#FF4DBA"/>
-          </svg>
-        )}
-      </div>
-      {/* + badge for not connected */}
-      {!account.connected && (
-        <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center"
-          style={{ background:'linear-gradient(135deg,#934DFF,#FF4DBA)' }}>
-          <span className="text-white font-bold" style={{ fontSize:12, lineHeight:1 }}>+</span>
+      {account.connected ? (
+        /* Connected: solid white background */
+        <div className="w-10 h-10 rounded-full flex items-center justify-center bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.1)' }}>
+          <div className="w-6 h-6 rounded-lg flex items-center justify-center overflow-hidden">
+            <Image src={iconMap[account.id]} alt={account.name} width={24} height={24} className="w-full h-full object-cover" />
+          </div>
         </div>
+      ) : (
+        /* Not connected: dashed border + faded */
+        <>
+          <div className="w-10 h-10 rounded-full flex items-center justify-center"
+            style={{ border: '2px dashed #934DFF', opacity: 0.5 }}>
+            <div className="w-6 h-6 rounded-lg flex items-center justify-center overflow-hidden">
+              <Image src={iconMap[account.id]} alt={account.name} width={24} height={24} className="w-full h-full object-cover" />
+            </div>
+          </div>
+          {/* + badge for not connected */}
+          <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center"
+            style={{ background:'linear-gradient(135deg,#934DFF,#FF4DBA)' }}>
+            <span className="text-white font-bold" style={{ fontSize:11, lineHeight:1 }}>+</span>
+          </div>
+        </>
       )}
     </button>
   );
@@ -117,31 +117,17 @@ function SocialDrawer({ account, onClose }: { account: SocialAccount | null; onC
 
         {/* Social Icon */}
         <div className="flex justify-center mb-5">
-          <div className="w-16 h-16 rounded-3xl flex items-center justify-center"
-            style={{ background: account.id === 'ig' ? 'linear-gradient(135deg,#f09433,#e6683c,#dc2743,#bc1888)'
-              : account.id === 'tiktok' ? '#010101'
-              : account.id === 'fb' ? '#1877F2'
-              : '#FF0000' }}>
-            {account.id === 'ig' && (
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-                <rect x="2" y="2" width="20" height="20" rx="6" stroke="white" strokeWidth="2"/>
-                <circle cx="12" cy="12" r="4" stroke="white" strokeWidth="2"/>
-                <circle cx="17.5" cy="6.5" r="1.5" fill="white"/>
-              </svg>
-            )}
-            {account.id === 'tiktok' && (
-              <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
-                <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.65a8.22 8.22 0 004.82 1.55V6.75a4.85 4.85 0 01-1.05-.06z"/>
-              </svg>
-            )}
-            {account.id === 'fb' && (
-              <span className="text-white font-black" style={{ fontSize: 28 }}>f</span>
-            )}
-            {account.id === 'yt' && (
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
-                <polygon points="10,8 16,12 10,16"/>
-              </svg>
-            )}
+          <div className="w-16 h-16 rounded-3xl overflow-hidden flex items-center justify-center bg-gray-100">
+            <Image
+              src={account.id === 'ig' ? '/images/profile/socialmedia/instagram.png'
+                : account.id === 'tiktok' ? '/images/profile/socialmedia/tiktok.png'
+                : account.id === 'fb' ? '/images/profile/socialmedia/facebook.png'
+                : '/images/profile/socialmedia/youtube.png'}
+              alt={account.name}
+              width={64}
+              height={64}
+              className="w-full h-full object-cover"
+            />
           </div>
         </div>
 
@@ -215,15 +201,51 @@ function RejectionDrawer({ reason, onClose }: { reason: string | null; onClose()
   );
 }
 
+/* ── Aggregate brands from approved posts ────────────────────────────── */
+function getBrandsFromPosts(posts: Post[]): Brand[] {
+  const brandMap = new Map<string, Brand>();
+
+  posts.forEach(post => {
+    if (!brandMap.has(post.brandName)) {
+      brandMap.set(post.brandName, {
+        name: post.brandName,
+        logo: post.logo,
+        postCount: 0,
+        totalEarnings: 0,
+        posts: [],
+      });
+    }
+
+    const brand = brandMap.get(post.brandName)!;
+    brand.postCount += 1;
+    brand.totalEarnings += post.points;
+    brand.posts.push(post);
+  });
+
+  return Array.from(brandMap.values()).sort((a, b) => b.totalEarnings - a.totalEarnings);
+}
+
 /* ══════════════════════════════════════════════════════════════════════ */
 export function ProfilePage() {
   const [activeTab,      setActiveTab]      = useState<PostTab>('approved');
   const [viewMode,       setViewMode]       = useState<ViewMode>('grid');
   const [socialDrawer,   setSocialDrawer]   = useState<SocialAccount | null>(null);
   const [rejectionReason, setRejectionReason] = useState<string | null>(null);
+  const [selectedBrand,  setSelectedBrand]  = useState<Brand | null>(null);
+  const [brandDrawerIn,  setBrandDrawerIn]  = useState(false);
 
   const closeSocial    = useCallback(() => setSocialDrawer(null), []);
   const closeRejection = useCallback(() => setRejectionReason(null), []);
+
+  const openBrandDrawer = (brand: Brand) => {
+    setSelectedBrand(brand);
+    requestAnimationFrame(() => requestAnimationFrame(() => setBrandDrawerIn(true)));
+  };
+
+  const closeBrandDrawer = useCallback(() => {
+    setBrandDrawerIn(false);
+    setTimeout(() => setSelectedBrand(null), 320);
+  }, []);
 
   const posts = activeTab === 'approved' ? APPROVED : PENDING;
   const isPending = activeTab === 'pending';
@@ -234,13 +256,13 @@ export function ProfilePage() {
   const tabLabel = activeTab === 'approved' ? 'Approved Posts' : activeTab === 'pending' ? 'Pending Posts' : 'My Brands';
 
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-white">
+    <div className="relative w-full h-screen overflow-hidden bg-gray-50">
       <div className="w-full h-full overflow-y-auto pb-32">
 
         {/* App Bar */}
-        <div className="px-4 pt-6 pb-2 flex items-center justify-between bg-gray-50">
+        <div className="relative px-4 pt-6 pb-4 bg-white border-b border-gray-100">
           <h1 className="font-bold text-gray-900" style={{ fontSize:16 }}>My Profile</h1>
-          <button className="p-2 rounded-full hover:bg-gray-100 transition">
+          <button className="absolute right-4 top-1/2 transform -translate-y-1/2 p-1.5 rounded-full hover:bg-gray-100 transition">
             <Settings size={20} className="text-gray-900" />
           </button>
         </div>
@@ -252,7 +274,6 @@ export function ProfilePage() {
             <Image src="/images/profile/user.png" alt="User" width={80} height={80} className="w-full h-full object-cover" />
           </div>
           <p className="font-bold text-gray-900 text-lg">Miyuru Jayawardana</p>
-          <p className="text-gray-400 text-sm mt-0.5">@miyuruj20</p>
         </div>
 
         {/* Connected Social Media */}
@@ -266,7 +287,7 @@ export function ProfilePage() {
         </div>
 
         {/* Tabs — same style as BrandDetailPage */}
-        <div className="px-4 flex gap-2 mb-0">
+        <div className="px-4 flex gap-2 mb-4">
           {(['approved','pending','brands'] as const).map(tab => (
             <button key={tab} onClick={() => setActiveTab(tab)}
               className="rounded-full text-sm transition whitespace-nowrap"
@@ -326,10 +347,10 @@ export function ProfilePage() {
                       />
                     )}
 
-                    {/* Points badge */}
+                    {/* Points badge — center aligned */}
                     {post.points > 0 && (
-                      <div className="absolute bottom-2 left-2 flex items-center gap-1 rounded-full px-2 py-1"
-                        style={{ background:'rgba(0,0,0,0.65)' }}>
+                      <div className="absolute bottom-2 left-1/2 flex items-center gap-1 rounded-full px-2 py-1"
+                        style={{ transform:'translateX(-50%)', background:'rgba(0,0,0,0.65)' }}>
                         <span style={{ fontSize:10, color:'#FCD34D' }}>⭐</span>
                         <span className="text-white font-bold" style={{ fontSize:10 }}>{post.points} Points</span>
                       </div>
@@ -342,11 +363,11 @@ export function ProfilePage() {
 
                     {/* Pending / Rejected status — bottom center */}
                     {isPending && (
-                      <div className="absolute bottom-2 left-1/2 rounded-full px-2 py-0.5"
-                        style={{ transform:'translateX(-50%)', background: post.rejection ? 'rgba(255,59,48,0.85)' : 'rgba(245,158,11,0.85)' }}>
-                        <p className="text-white font-semibold" style={{ fontSize:9 }}>
-                          {post.rejection ? 'Rejected' : 'Pending'}
-                        </p>
+                      <div className="absolute bottom-2 left-1/2 rounded-full px-2 py-0.5 font-semibold text-white"
+                        style={{ transform:'translateX(-50%)',
+                          background: post.rejection ? 'rgba(255,59,48,0.5)' : 'rgba(245,158,11,0.5)',
+                          fontSize:9 }}>
+                        {post.rejection ? 'Rejected' : 'Pending'}
                       </div>
                     )}
                   </div>
@@ -382,8 +403,9 @@ export function ProfilePage() {
                   </div>
 
                   {isPending ? (
-                    <span className="text-xs font-medium px-2.5 py-1 rounded-full flex-shrink-0"
-                      style={{ background: post.rejection ? '#FF3B30' : '#F59E0B', color:'#fff', fontSize:9 }}>
+                    <span className="text-xs font-medium px-2.5 py-1 rounded-full flex-shrink-0 text-white"
+                      style={{ background: post.rejection ? 'rgba(255,59,48,0.5)' : 'rgba(245,158,11,0.5)',
+                        fontSize:9 }}>
                       {post.rejection ? 'Rejected' : 'Pending'}
                     </span>
                   ) : post.points > 0 && (
@@ -395,17 +417,108 @@ export function ProfilePage() {
           </div>
         )}
 
-        {/* My Brands placeholder */}
+        {/* My Brands */}
         {activeTab === 'brands' && (
-          <div className="px-4 pt-16 flex flex-col items-center">
-            <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mb-4">
-              <span className="text-2xl">🏷️</span>
-            </div>
-            <p className="text-gray-900 font-medium mb-1">No brands yet</p>
-            <p className="text-gray-500 text-sm text-center">Brands you post for will appear here</p>
+          <div className="px-4">
+            {getBrandsFromPosts(APPROVED).length > 0 ? (
+              <div className="grid grid-cols-2 gap-3">
+                {getBrandsFromPosts(APPROVED).map((brand) => (
+                  <button key={brand.name}
+                    onClick={() => openBrandDrawer(brand)}
+                    className="bg-white rounded-2xl p-3 flex flex-col items-center text-center transition active:scale-95"
+                    style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
+                    <div className="w-14 h-14 rounded-full overflow-hidden bg-gray-100 mb-2 border border-gray-100">
+                      <Image src={brand.logo} alt={brand.name} width={56} height={56} className="w-full h-full object-cover" />
+                    </div>
+                    <p className="font-semibold text-gray-900 text-xs mb-2 line-clamp-2">{brand.name}</p>
+                    <div className="w-full space-y-1">
+                      <div className="flex justify-between text-xs">
+                        <span className="text-gray-500">Posts</span>
+                        <span className="font-bold text-gray-900">{brand.postCount}</span>
+                      </div>
+                      <div className="flex justify-between text-xs">
+                        <span className="text-gray-500">Earned</span>
+                        <span className="font-bold text-gray-900">+{brand.totalEarnings}</span>
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <div className="pt-16 flex flex-col items-center">
+                <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+                  <span className="text-2xl">🏷️</span>
+                </div>
+                <p className="text-gray-900 font-medium mb-1">No brands yet</p>
+                <p className="text-gray-500 text-sm text-center">Brands you post for will appear here</p>
+              </div>
+            )}
           </div>
         )}
       </div>
+
+      {/* Brand Drawer */}
+      {selectedBrand && (
+        <div className="absolute inset-0 z-50 flex flex-col justify-end"
+          style={{ background: brandDrawerIn ? 'rgba(0,0,0,0.46)' : 'rgba(0,0,0,0)', transition:'background 0.32s ease' }}
+          onClick={closeBrandDrawer}>
+          <div className="bg-white rounded-t-3xl px-5 pt-3 pb-8"
+            style={{ transform: brandDrawerIn ? 'translateY(0)' : 'translateY(100%)', transition:'transform 0.32s cubic-bezier(0.32,0.72,0,1)' }}
+            onClick={e => e.stopPropagation()}>
+            <div className="w-10 h-1 rounded-full bg-gray-200 mx-auto mb-6" />
+
+            {/* Brand Header */}
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-100 border border-gray-100 flex-shrink-0">
+                <Image src={selectedBrand.logo} alt={selectedBrand.name} width={48} height={48} className="w-full h-full object-cover" />
+              </div>
+              <div>
+                <p className="text-gray-900 font-bold text-base">{selectedBrand.name}</p>
+                <p className="text-gray-500 text-xs mt-0.5">{selectedBrand.postCount} {selectedBrand.postCount === 1 ? 'post' : 'posts'}</p>
+              </div>
+            </div>
+
+            {/* Stats */}
+            <div className="flex gap-3 mb-6">
+              <div className="flex-1 rounded-2xl bg-gray-50 px-3 py-3">
+                <p className="text-gray-400 text-xs mb-1">Total Posts</p>
+                <p className="text-gray-900 font-bold text-lg">{selectedBrand.postCount}</p>
+              </div>
+              <div className="flex-1 rounded-2xl bg-gray-50 px-3 py-3">
+                <p className="text-gray-400 text-xs mb-1">Total Earnings</p>
+                <p className="text-gray-900 font-bold text-lg">+{selectedBrand.totalEarnings}</p>
+              </div>
+            </div>
+
+            {/* Posts Summary */}
+            <p className="text-gray-900 font-bold text-sm mb-3">Posts</p>
+            <div className="bg-white rounded-2xl overflow-hidden mb-6" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
+              {selectedBrand.posts.map((post, i) => (
+                <div key={post.id}
+                  className="flex items-center gap-2 px-3 py-2.5"
+                  style={i < selectedBrand.posts.length - 1 ? { borderBottom:'1px solid #F3F4F6' } : {}}>
+                  <div className="w-10 h-10 rounded-lg overflow-hidden bg-gray-200 flex-shrink-0">
+                    {post.isVideo ? (
+                      <div className="w-full h-full bg-gray-900 flex items-center justify-center">
+                        <Play size={12} className="text-white fill-white" />
+                      </div>
+                    ) : (
+                      <Image src={post.image} alt="Post" width={40} height={40} className="w-full h-full object-cover" />
+                    )}
+                  </div>
+                  <p className="text-gray-500 text-xs flex-1">Post {i + 1}</p>
+                  <p className="text-gray-900 font-semibold text-xs">+{post.points}</p>
+                </div>
+              ))}
+            </div>
+
+            <button onClick={closeBrandDrawer} className="w-full rounded-full py-3.5 font-bold text-sm transition active:scale-95"
+              style={{ background:'#111', color:'#fff' }}>
+              Close
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Social Drawer */}
       <SocialDrawer account={socialDrawer} onClose={closeSocial} />
